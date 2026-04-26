@@ -8,7 +8,7 @@ const Button = ({state, setState, name}) => {
 
 const StatisticLine = ({text, value}) => {
   return (
-    <p>{text}: {value}</p>
+    <><td>{text}</td><td>{value}</td></>
   )
 }
 
@@ -25,12 +25,16 @@ const Statistics = ({good, bad, neutral}) => {
   return (
     <div>
       <h1>statistics</h1>
-      <StatisticLine text={'good'} value={good}></StatisticLine>
-      <StatisticLine text={'neutral'} value={neutral}></StatisticLine>
-      <StatisticLine text={'bad'} value={bad}></StatisticLine>
-      <StatisticLine text={'all'} value={good + neutral + bad}></StatisticLine>
-      <StatisticLine text={'average'} value={(good*1 + neutral*0 + bad*-1)/(good + neutral + bad)}></StatisticLine>
-      <StatisticLine text={'positive'} value={good/(good + neutral + bad)}></StatisticLine>
+      <table>
+        <tbody>
+          <tr><StatisticLine text={'good'} value={good}></StatisticLine></tr>
+          <tr><StatisticLine text={'neutral'} value={neutral}></StatisticLine></tr>
+          <tr><StatisticLine text={'bad'} value={bad}></StatisticLine></tr>
+          <tr><StatisticLine text={'all'} value={good + neutral + bad}></StatisticLine></tr>
+          <tr><StatisticLine text={'average'} value={(good*1 + neutral*0 + bad*-1)/(good + neutral + bad)}></StatisticLine></tr>
+          <tr><StatisticLine text={'positive'} value={(good/(good + neutral + bad)*100) + '%'}></StatisticLine></tr>
+        </tbody>
+      </table>
     </div>
   )
 }
