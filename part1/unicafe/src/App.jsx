@@ -1,9 +1,7 @@
 import { useState } from 'react'
 
 const Button = ({state, setState, name}) => {
-  return (
-    <button onClick={() => setState(state + 1)}>{name}</button>
-  )
+  return <button onClick={() => setState(state + 1)}>{name}</button>
 }
 
 const StatisticLine = ({text, value}) => {
