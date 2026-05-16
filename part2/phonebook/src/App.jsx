@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import Filter from './Filter'
+import PersonForm from './PersonForm'
+import Persons from './Persons'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -13,14 +16,19 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-
+    
     if(persons.find(person => person.name === newName)){
       return alert(`${newName} is already added to phonebook`)
     }
 
+    if(newNumber === '' || newName === ''){
+      return alert(`please fill out all the form fields`)
+    }
+
     const newPerson = {
       name: newName,
-      number: newNumber
+      number: newNumber,
+      id: persons.length + 1
     }
 
     setPersons(persons.concat(newPerson))
@@ -43,41 +51,25 @@ const App = () => {
     setFilter(event.target.value)
   }
 
-  const filteredResults = filter === '' ? persons : persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
+  const filteredPersons = filter === '' ? persons : persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with: 
-        <input
-        value={filter}
-        onChange={handleFilterChange} />
-      </div>
+      <Filter 
+      filter={filter} 
+      eventHandler={handleFilterChange}></Filter>
 
-      <h2>add a new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: 
-          <input 
-          value={newName}
-          onChange={handleNameChange} />
-        </div>
+      <h3>add a new</h3>
+      <PersonForm 
+      personEventHandler={addPerson} 
+      name={newName}
+      nameEventHandler={handleNameChange}
+      number={newNumber}
+      numberEventHandler={handleNumberChange}></PersonForm>
 
-        <div>
-          number: 
-          <input
-          value={newNumber}
-          onChange={handleNumberChange} />
-        </div>
-
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-
-      <h2>Numbers</h2>
-      {filteredResults.map(person => <div key={person.id}>{person.name} {person.number}</div>)}
+      <h3>Numbers</h3>
+      <Persons filteredPersons={filteredPersons}></Persons>
     </div>
   )
 }
