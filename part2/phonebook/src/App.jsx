@@ -44,6 +44,21 @@ const App = () => {
     })
   }
 
+  const deletePerson = (personToDelete) => {
+    if (window.confirm(`Do you want to delete ${personToDelete.name} from the phonebook?`)){
+      personService
+      .deletePerson(personToDelete.id)
+      .then(() =>
+        setPersons(persons.filter(person => person.id !== personToDelete.id))
+      )
+      .catch(error => {
+        console.log(error)
+        alert('Contact already deleted')
+        setPersons(persons.filter(person => person.id !== personToDelete.id))
+      })
+    }
+  }
+
   const handleNameChange = (event) => {
     console.log(event.target.value)
     setNewName(event.target.value)
@@ -77,7 +92,9 @@ const App = () => {
       numberEventHandler={handleNumberChange}></PersonForm>
 
       <h3>Numbers</h3>
-      <Persons filteredPersons={filteredPersons}></Persons>
+      <Persons 
+      filteredPersons={filteredPersons}
+      deletePerson={deletePerson}></Persons>
     </div>
   )
 }
